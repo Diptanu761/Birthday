@@ -1,27 +1,40 @@
 import React, { useEffect, useRef } from 'react'
 import orihime from '../assets/orihime.jpg'
 import { GiCrossMark } from 'react-icons/gi'
+import { playMusic, stopMusic } from "../utils/audioManager";
 
 const BookCanvas = ({ active, setActive }) => {
 
     const dropdownRef = useRef(null)
+    const audioRef = useRef(null);
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
             setActive(true)
         }
     }
     useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside)
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside)
+        if (!active) {
+            playMusic("/music/card.mp3", 0.4);
+        } else {
+            stopMusic();
         }
-    }, [])
+    }, [active]);
 
 
     return (
         <div className={`boxMail ${active ? 'hidden opacity-0 pointer-events-none' : 'opacity-100 visible'}`}>
 
-            <div onClick={() => setActive(!active)} className="crossAll">
+            <div
+                onClick={() => {
+                    setActive(!active);
+
+                    if (audioRef.current) {
+                        audioRef.current.pause();
+                        audioRef.current.currentTime = 0;
+                    }
+                }}
+                className="crossAll"
+            >
                 <GiCrossMark className="text-white" />
             </div>
 
@@ -29,7 +42,7 @@ const BookCanvas = ({ active, setActive }) => {
                 <div className="card1">
                     <div className="cover-text-wrapper">
                         <h4 className="username">
-                            Dear Trisha<span className="underline"></span>
+                            Dear Tannu<span className="underline"></span>
                         </h4>
                         <h3 className="cover-title">
                             Happy Birthday!
@@ -68,11 +81,16 @@ const BookCanvas = ({ active, setActive }) => {
 
                         {/* Swapping back to H2 to match the original CSS targeting */}
                         <div className="card2-message-text italic">
-                            <article style={{ marginBottom: '8px' }}>Happy Birthday, Trisha ❤️</article>
-                            <article style={{ marginBottom: '10px' }}>From the moment we met, something in my life shifted—like the universe quietly guiding me toward someone meant for me.You brought warmth into the parts of me I didn’t even know were cold, And you expanded my days with a dimension I can only call my own.</article>
-                            <article style={{ marginBottom: '10px' }}>On your birthday, I just want you to know this: I want you with me in every chapter, every storm, every sunshine, every tomorrow. No matter what comes, I’ll be on your side—always. I’ll choose you, protect you, stand with you, and love you in ways that remind you you’re never alone.</article>
-                            <article style={{ marginBottom: '10px' }}>You’re not just another year older today… <br />
-                                you’re the reason my life feels softer, brighter, and endlessly worth living. Happy Birthday.</article>
+                            <article style={{ marginBottom: '8px' }}>Happy Birthday, Tanvi ❤️</article>
+                            <article style={{ marginBottom: '10px' }}>On your birthday, I just want you to know this —
+                                you are the one who makes me mad, makes me laugh, makes me cry, and fills my life with fun.
+                                Because of you, my life feels beautiful… like heaven on earth.
+                                Jab tere saath hota hu, aisa lagta hai jaise life ka sab kuch mil gaya ho.</article>
+                            <article style={{ marginBottom: '10px' }}>Mujhe nahi pata kaise explain karu, par tere saath rehna bas… bahut accha lagta hai.
+                                Itna accha ki words mein bata pana mushkil hai.</article>
+                            <article style={{ marginBottom: '10px' }}>Tu meri life ka wo part hai jise main hamesha sambhal ke rakhna chahta hu..<br />
+                                You are the one who showed me what love feels like… what real sukoon feels like.
+                                Sorry agar thoda random bol raha hu, but tannu… you truly make my life feel complete. Happy Birthday.</article>
                         </div>
 
                         <div className="card2-decoration"></div> {/* Decoration */}
@@ -91,7 +109,7 @@ const BookCanvas = ({ active, setActive }) => {
                         <div className="confetti-dots"></div>
 
                         <p className="signature">
-                            Your Best Friend, Rexon
+                            Your love, Sairaj
                         </p>
                     </div>
                 </div>

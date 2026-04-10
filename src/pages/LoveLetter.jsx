@@ -1,54 +1,83 @@
 import React, { useEffect, useRef, useState } from 'react'
 
+
+
 const LoveLetter = () => {
     const lettersData = [
         {
             id: 1,
-            name: "Rexon",
+            name: "Sairaj",
             msg: "Wish you the happiest birthday",
         },
         {
             id: 2,
-            name: "Rexon",
+            name: "Sairaj",
             msg: "One picture from you can change my whole day, my whole mood, my whole heartbeat.",
         },
         {
             id: 3,
-            name: "Rexon",
+            name: "Sairaj",
             msg: "Even through screens and pixels, your laugh reaches me like sunlight through a window—warm, real, and impossible to forget.",
         },
         {
             id: 4,
-            name: "Rexon",
+            name: "Sairaj",
             msg: "Every notification from you feels like a heartbeat whispering, I’m here, and I love you.",
         },
         {
             id: 5,
-            name: "Rexon",
+            name: "Sairaj",
             msg: "Our messages might travel through wires, but every word you send lands straight in my heart.",
         },
         {
             id: 6,
-            name: "Rexon",
+            name: "Sairaj",
             msg: "Ever since our we met, my heart knew where it wanted to stay— with you, in every soft moment, every smile, every quiet piece of forever.",
         },
         {
             id: 7,
-            name: "Rexon",
+            name: "Sairaj",
             msg: " but you turned it into a memory my heart refuses to forget. Since then, every moment with you has felt softer, brighter, and filled with a kind of peace only you bring.",
         },
         {
             id: 8,
-            name: "Rexon",
+            name: "Sairaj",
             msg: "Since our first conversation, you’ve been the quiet spark that changed my world, turning ordinary days into moments that feel beautifully meant to be.",
         },
+        {
+            id: 9,
+            name: "Sairaj",
+            msg: "You are the one n only reason of my happiness.",
+        },
     ];
+    const audioRef = useRef(null);
     const [openEnvelope, setOpenEnvelope] = useState(false);
     const [letters, setLetters] = useState([]);
     const [zIndexCounter, setZIndexCounter] = useState(10);
     const lettersContainerRef = useRef(null);
     useEffect(() => {
         setLetters(lettersData);
+    }, []);
+    useEffect(() => {
+        audioRef.current = new Audio("/music/letter.mp3");
+        audioRef.current.loop = true;
+        audioRef.current.volume = 0.5;
+
+        const playMusic = () => {
+            audioRef.current.play();
+            document.removeEventListener("click", playMusic);
+        };
+
+        document.addEventListener("click", playMusic);
+
+        return () => {
+            document.removeEventListener("click", playMusic);
+
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+            }
+        };
     }, []);
     // Drag logic
     const handleMouseDown = (e) => {
@@ -120,14 +149,19 @@ const LoveLetter = () => {
                         className="munna heart"
                         id="openEnvelope"
                         aria-label="Open Envelope"
-                        onClick={() => setOpenEnvelope(true)}
+                        onClick={() => {
+                            setOpenEnvelope(true);
+                            if (audioRef.current) {
+                                audioRef.current.play();
+                            }
+                        }}
                     >
                         <span className="munna heart-text">Open</span>
                     </button>
                     <div className="munna envelope-flap text-black relative">
                         <div className='munna absolute left-1/2 top-[20%] -translate-x-1/2 flex items-center justify-center flex-col md:gap-y-2'>
                             <span className='munna font-sriracha md:text-2xl text-lg'>Envelope Of Love</span>
-                            <span className='munna font-dancingScript md:text-3xl text-xl'>Dear Trisha</span>
+                            <span className='munna font-dancingScript md:text-3xl text-xl'>Dear Tanvi</span>
                         </div>
                     </div>
                     <div className="munna envelope-folds">
